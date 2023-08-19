@@ -3,6 +3,9 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import os
+import pytesseract
+from PIL import Image
+from tasks.tasks import extract_sensitive_info
 
 
 app = FastAPI()
@@ -18,5 +21,11 @@ async def index(request: Request):
 async def upload_file(
     request: Request, upload: UploadFile = File(...)):
 
-    return templates.TemplateResponse("result.html", {"uploaded_file_name": upload.filename, "request": request,})
+    image = Image.open(upload.file)
+    extracted_text = pytesseract.image_to_string(image)
+    sensitive_info = extract_sensitive_info(extracted_text)
 
+    return templates.TemplateResponse(
+        "result.html",
+        {"uploaded_file_name": upload.filename, "extracted_text": extracted_text, "sensitive_info": sensitive_info, "request": request},
+    )

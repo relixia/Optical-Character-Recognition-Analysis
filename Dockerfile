@@ -5,6 +5,9 @@ FROM python:3.11
 RUN curl -sSL https://install.python-poetry.org | python -
 ENV PATH="${PATH}:/root/.local/bin"
 
+# Install Tesseract and its dependencies
+RUN apt-get update && apt-get install -y tesseract-ocr
+
 # Set the working directory in the container
 WORKDIR /app
 

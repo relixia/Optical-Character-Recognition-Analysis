@@ -6,5 +6,22 @@
 <body>
     <h1>OCR Analysis Result</h1>
     <p>Uploaded file: {{ uploaded_file_name }}</p>
+
+    <h2>Extracted Text:</h2>
+    <p>{{ extracted_text }}</p>
+
+    <h2>Sensitive Information:</h2>
+    <p>Phone Numbers: {{ sensitive_info.phone_numbers }}</p>
+    <p>ID Numbers: {{ sensitive_info.id_numbers }}</p>
+    <p>Credit Card: {{ sensitive_info.credit_card_numbers }}</p>
+    <p>Plate: {{ sensitive_info.plate_numbers }}</p>
+    <p>Date: {{ sensitive_info.dates }}</p>
+    <p>Email: {{ sensitive_info.emails }}</p>
+    <p>Domains: {{ sensitive_info.domains }}</p>
+    <p>URLs: {{ sensitive_info.urls }}</p>
+    <p>Hashes: {{ sensitive_info.hashes }}</p>
+    <p>Combolist: {{ sensitive_info.combolists }}</p>
+
+
 </body>
 </html>
