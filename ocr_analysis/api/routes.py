@@ -5,7 +5,7 @@ from fastapi.templating import Jinja2Templates
 import os
 import pytesseract
 from PIL import Image
-from tasks.tasks import extract_sensitive_info
+from tasks.extractor import SensitiveInfoExtractor
 
 
 app = FastAPI()
@@ -23,7 +23,9 @@ async def upload_file(
 
     image = Image.open(upload.file)
     extracted_text = pytesseract.image_to_string(image)
-    sensitive_info = extract_sensitive_info(extracted_text)
+
+    extractor = SensitiveInfoExtractor(extracted_text) #instance of the class
+    sensitive_info = extractor.extract_sensitive_info()
 
     return templates.TemplateResponse(
         "result.html",
