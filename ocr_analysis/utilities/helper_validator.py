@@ -1,12 +1,6 @@
 import json
-import os
 import requests
-
-HUNTERIO_API = os.getenv("HUNTERIO_API")
-VERIFALIA_USERNAME = os.getenv("VERIFALIA_USERNAME")
-VERIFALIA_PASSWORD = os.getenv("VERIFALIA_PASSWORD")
-#dynaconf
-
+from config import settings
 
 def luhn_algorithm_validation(number):
     # Reverse the credit card number and convert it to a list of integers
@@ -41,7 +35,7 @@ def detect_card_type(card_number):
     return next((card_type for prefix, card_type in card_type_mapping.items() if card_number.startswith(prefix)), "Unknown")
 
 def hunterio(user_email: str) -> str:
-    url = f"https://api.hunter.io/v2/email-verifier?email={user_email}&api_key={HUNTERIO_API}"
+    url = f"https://api.hunter.io/v2/email-verifier?email={user_email}&api_key={settings.HUNTERIO_API}"
     response = requests.get(url)
     return response.json()
 
@@ -51,6 +45,6 @@ def verifalia(user_email: str) -> str:
         "Content-Type": "application/json"
     }
     payload = { "entries": [ { "inputData": user_email } ] }
-    response = requests.post(url, json=payload, headers=headers, auth=(VERIFALIA_USERNAME, VERIFALIA_PASSWORD))
+    response = requests.post(url, json=payload, headers=headers, auth=(settings.VERIFALIA_USERNAME, settings.VERIFALIA_PASSWORD))
     response_data = response.json()
     return response_data

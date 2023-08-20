@@ -9,11 +9,9 @@ from tasks.extractor import SensitiveInfoExtractor
 from validation.validator import validate_urls, validate_domains, validate_credit_cards, validate_emails
 
 #TODO: 
-# email verifier yapılacak     06 AC 7250
 # redis cache yapılacak
 # rapor yazılacak
 # result page yapılacak
-# dynaconf eklenecek
 # docstring yaz
 # test yazılacak
 
