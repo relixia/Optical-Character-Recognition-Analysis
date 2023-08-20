@@ -21,6 +21,9 @@ isort = "^5.12.0"
 python-multipart = "^0.0.6"
 pytesseract = "^0.3.10"
 pillow = "^10.0.0"
+validators = "^0.21.2"
+python-whois = "^0.8.0"
+requests = "^2.31.0"
 
 
 [build-system]
