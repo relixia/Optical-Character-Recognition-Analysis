@@ -66,3 +66,20 @@ def validate_emails(emails):
         validated_emails.append(email)
     
     return validated_emails
+
+def validate_fields(sensitive_info):
+    fields = ["urls", "domains", "credit_card_numbers", "emails"]
+    validation_functions = {
+        "urls": validate_url,
+        "domains": validate_domain,
+        "credit_card_numbers": validate_credit_cards,
+        "emails": validate_emails
+    }
+    
+    validation_results = {}
+    
+    for field in fields:
+        if field in sensitive_info and field in validation_functions:
+            validation_results[field] = validation_functions[field](sensitive_info[field])
+    
+    return validation_results
