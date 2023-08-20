@@ -4,9 +4,7 @@ import pytesseract
 from cache.cache_manager import cache_result, get_cached_result
 from tasks.extractor import SensitiveInfoExtractor
 from validation.validator import validate_fields
-from fastapi import FastAPI
-from fastapi.responses import JSONResponse
-from fastapi.exceptions import HTTPException
+
 
 def process_image(upload):
     image_data = upload.file.read()
@@ -29,7 +27,7 @@ def process_image(upload):
     result_content = {
         "content": extracted_text,
         "status": "successful",
-        "findings": sensitive_info
+        "findings": sensitive_info,
     }
 
     cache_result(image_data, json.dumps(result_content))  # Convert to JSON string
