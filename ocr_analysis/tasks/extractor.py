@@ -126,21 +126,26 @@ class SensitiveInfoExtractor:
 
         return ip_addresses
 
+    def format_findings(self, info_list, info_type):
+        formatted_info = []
+        for value in info_list:
+            formatted_info.append({"value": value, "type": info_type})
+        return formatted_info
 
     def extract_sensitive_info(self):
         sensitive_info = {
-            "phone_numbers": self.extract_phone_numbers(),
-            "id_numbers": self.extract_id_numbers(),
-            "credit_card_numbers": self.extract_credit_card_numbers(),
-            "plate_numbers": self.extract_plate_numbers(),
-            "dates": self.extract_dates(),
-            "emails": self.extract_emails(),
-            "domains": self.extract_domains(),
-            "urls": self.extract_urls(),
-            "hashes": self.extract_hashes(),
-            "combolists": self.detect_combolists(),
-            "gender": self.extract_gender_info(),
-            "ip_addresses": self.extract_ip_addresses()
+            "phone_numbers": self.format_findings(self.extract_phone_numbers(), "PHONE_NUMBER"),
+            "id_numbers": self.format_findings(self.extract_id_numbers(), "ID_NUMBER"),
+            "credit_card_numbers": self.format_findings(self.extract_credit_card_numbers(), "CREDIT_CARD"),
+            "plate_numbers": self.format_findings(self.extract_plate_numbers(), "PLATE"),
+            "dates": self.format_findings(self.extract_dates(), "DATE"),
+            "emails": self.format_findings(self.extract_emails(), "EMAIL"),
+            "domains": self.format_findings(self.extract_domains(), "DOMAIN"),
+            "urls": self.format_findings(self.extract_urls(), "URL"),
+            "hashes": self.format_findings(self.extract_hashes(), "HASH"),
+            "combolists": self.format_findings(self.detect_combolists(), "COMBOLIST"),
+            "gender": self.format_findings(self.extract_gender_info(), "GENDER"),
+            "ip_addresses": self.format_findings(self.extract_ip_addresses(), "IP_ADDRESS")
 
         }
         

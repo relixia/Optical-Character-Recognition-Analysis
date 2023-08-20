@@ -1,5 +1,5 @@
-from fastapi import FastAPI, File, UploadFile, Request
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, File, UploadFile, Request, HTTPException
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import os
@@ -24,10 +24,10 @@ async def upload_file(
     image = Image.open(upload.file)
     extracted_text = pytesseract.image_to_string(image)
 
+    if not extracted_text.strip():
+        raise HTTPException(status_code=204)  #return HTTP 204 no content
+
     extractor = SensitiveInfoExtractor(extracted_text) #instance of the class
     sensitive_info = extractor.extract_sensitive_info()
 
-    return templates.TemplateResponse(
-        "result.html",
-        {"uploaded_file_name": upload.filename, "extracted_text": extracted_text, "sensitive_info": sensitive_info, "request": request},
-    )
+    return JSONResponse(content={"content": extracted_text, "status": "successful", "findings": sensitive_info})
