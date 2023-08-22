@@ -1,11 +1,9 @@
-from validators import url as validate_url, domain as validate_domain
 import whois
-from utilities.helper_validator import (
-    luhn_algorithm_validation,
-    detect_card_type,
-    hunterio,
-    verifalia,
-)
+from validators import domain as validate_domain
+from validators import url as validate_url
+
+from utilities.helper_validator import (detect_card_type, hunterio,
+                                        luhn_algorithm_validation, verifalia)
 
 
 def validate_urls(urls):

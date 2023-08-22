@@ -1,6 +1,7 @@
-from api.api import app, templates
-from fastapi import FastAPI, File, UploadFile, Request, HTTPException
+from fastapi import FastAPI, File, HTTPException, Request, UploadFile
 from fastapi.responses import HTMLResponse, JSONResponse
+
+from api.api import app, templates
 from tasks.image_processor import process_image
 
 

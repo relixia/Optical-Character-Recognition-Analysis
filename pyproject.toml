@@ -9,8 +9,6 @@ packages = [{include = "ocr_analysis"}]
 [tool.poetry.dependencies]
 python = "^3.11"
 redis = "^5.0.0"
-sqlalchemy = "^2.0.20"
-psycopg2 = "^2.9.7"
 fastapi = "^0.101.1"
 uvicorn = "^0.23.2"
 dynaconf = "^3.2.1"
