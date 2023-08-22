@@ -1,4 +1,4 @@
-from api.api import app
+from api.api import app, templates
 from fastapi import FastAPI, File, UploadFile, Request, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse
 from tasks.image_processor import process_image

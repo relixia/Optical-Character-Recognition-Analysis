@@ -3,7 +3,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 # TODO:
-# rapor yazılacak //    tunneling   //      result page yapılacak    //     docstring yaz   //      test yazılacak
+#   //     docstring yaz   //      test yazılacak
 
 app = FastAPI()
 

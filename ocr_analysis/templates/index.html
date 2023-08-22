@@ -160,10 +160,10 @@
         const submitButton = document.getElementById("submit-button");
         const uploadedFile = document.getElementById("uploaded-file");
         const ocrUploadedFile = document.getElementById("ocr-uploaded-file");
-
+    
         function showFileName() {
             const input = document.getElementById("upload-input");
-
+    
             if (input.files && input.files[0]) {
                 ocrUploadedFile.textContent = "Uploaded file: " + input.files[0].name;
                 submitButton.removeAttribute("disabled");
@@ -173,57 +173,55 @@
                 submitButton.setAttribute("disabled", "disabled");
             }
         }
-
-        function handleFormSubmit() {
-        const input = document.getElementById("upload-input");
-        const form = document.querySelector("form");
-
-        form.addEventListener("submit", async (event) => {
-            event.preventDefault();
-            const formData = new FormData(form);
-
-            try {
-                const response = await fetch("/result", {
-                    method: "POST",
-                    body: formData,
-                });
-
-                if (response.status === 204) {
-                    // Handle the case of No Content (HTTP 204)
-                    showAlert("Uploaded image does not contain any text to be analyzed!");
-                    return;
+    
+        async function handleFormSubmit() {
+            const input = document.getElementById("upload-input");
+            const form = document.querySelector("form");
+    
+            form.addEventListener("submit", async (event) => {
+                event.preventDefault();
+                const formData = new FormData(form);
+    
+                try {
+                    const response = await fetch("/result", {
+                        method: "POST",
+                        body: formData,
+                    });
+    
+                    if (response.status === 204) {
+                        // Handle the case of No Content (HTTP 204)
+                        showAlert("Uploaded image does not contain any text to be analyzed!");
+                        return;
+                    }
+    
+                    if (response.ok) {
+                        const result = await response.json();
+                        window.location.href = "/result"; // Redirect to the result page
+                    } else {
+                        // Handle other error responses here
+                    }
+                } catch (error) {
+                    console.error("An error occurred:", error);
                 }
-
-                if (response.ok) {
-                    const result = await response.json();
-                    // Handle the successful response and display the result
-                    // You can redirect or update the UI here as needed.
-                } else {
-                    // Handle other error responses here
-                }
-            } catch (error) {
-                console.error("An error occurred:", error);
-            }
-        });
-    }
-
-    function showAlert(message) {
-        const alertContainer = document.createElement("div");
-        alertContainer.className = "alert-container";
-        const alertMessage = document.createElement("div");
-        alertMessage.className = "alert-message";
-        alertMessage.textContent = message;
-        alertContainer.appendChild(alertMessage);
-        document.body.appendChild(alertContainer);
-
-        // Remove the alert after a few seconds
-        setTimeout(() => {
-            document.body.removeChild(alertContainer);
-        }, 5000); // Display for 3 seconds
-    }
-
-    handleFormSubmit();
-
+            });
+        }
+    
+        function showAlert(message) {
+            const alertContainer = document.createElement("div");
+            alertContainer.className = "alert-container";
+            const alertMessage = document.createElement("div");
+            alertMessage.className = "alert-message";
+            alertMessage.textContent = message;
+            alertContainer.appendChild(alertMessage);
+            document.body.appendChild(alertContainer);
+    
+            // Remove the alert after a few seconds
+            setTimeout(() => {
+                document.body.removeChild(alertContainer);
+            }, 5000); // Display for 5 seconds
+        }
+    
+        handleFormSubmit();
     </script>
-</body>
+    </body>
 </html>

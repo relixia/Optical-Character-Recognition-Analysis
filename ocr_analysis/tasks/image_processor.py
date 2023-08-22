@@ -4,6 +4,7 @@ import pytesseract
 from cache.cache_manager import cache_result, get_cached_result
 from tasks.extractor import SensitiveInfoExtractor
 from validation.validator import validate_fields
+from fastapi.responses import HTMLResponse, JSONResponse
 
 
 def process_image(upload):

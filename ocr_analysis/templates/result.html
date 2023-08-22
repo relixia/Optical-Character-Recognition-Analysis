@@ -2,28 +2,65 @@
 <html>
 <head>
     <title>OCR Analysis Result</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f2f2f2;
+        }
+
+        .result-container {
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 80%;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h1>OCR Analysis Result</h1>
-    <p>Uploaded file: {{ uploaded_file_name }}</p>
+    <div class="result-container">
+        <h1>OCR Analysis Result</h1>
+        <p>Uploaded file: {{ uploaded_file_name }}</p>
 
-    <h2>Extracted Text:</h2>
-    <p>{{ extracted_text }}</p>
+        <h2>Extracted Text:</h2>
+        <p>{{ extracted_text }}</p>
 
-    <h2>Sensitive Information:</h2>
-    <p>Phone Numbers: {{ sensitive_info.phone_numbers }}</p>
-    <p>ID Numbers: {{ sensitive_info.id_numbers }}</p>
-    <p>Credit Card: {{ sensitive_info.credit_card_numbers }}</p>
-    <p>Plate: {{ sensitive_info.plate_numbers }}</p>
-    <p>Date: {{ sensitive_info.dates }}</p>
-    <p>Email: {{ sensitive_info.emails }}</p>
-    <p>Domains: {{ sensitive_info.domains }}</p>
-    <p>URLs: {{ sensitive_info.urls }}</p>
-    <p>Hashes: {{ sensitive_info.hashes }}</p>
-    <p>Combolist: {{ sensitive_info.combolists }}</p>
-    <p>Gender: {{ sensitive_info.gender }}</p>
-    <p>IP Address: {{ sensitive_info.ip_addresses }}</p>
-
-
+        <h2>Sensitive Information:</h2>
+        <p>Phone Numbers: {{ sensitive_info.phone_numbers }}</p>
+        <p>ID Numbers: {{ sensitive_info.id_numbers }}</p>
+        <p>Credit Card: {{ sensitive_info.credit_card_numbers }}</p>
+        <p>Plate: {{ sensitive_info.plate_numbers }}</p>
+        <p>Date: {{ sensitive_info.dates }}</p>
+        <p>Email: {{ sensitive_info.emails }}</p>
+        <p>Domains: {{ sensitive_info.domains }}</p>
+        <p>URLs: {{ sensitive_info.urls }}</p>
+        <p>Hashes: {{ sensitive_info.hashes }}</p>
+        <p>Combolist: {{ sensitive_info.combolists }}</p>
+        <p>Gender: {{ sensitive_info.gender }}</p>
+        <p>IP Address: {{ sensitive_info.ip_addresses }}</p>
+    </div>
 </body>
 </html>
