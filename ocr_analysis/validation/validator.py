@@ -3,6 +3,7 @@ from validators import domain as validate_domain
 from validators import url as validate_url
 from validators import hashes as validate_hash
 from validators import btc_address as validate_btc_wallet
+from validators import iban as validate_iban
 
 from utilities.helper_validator import (detect_card_type, hunterio,
                                         luhn_algorithm_validation, verifalia)
@@ -133,7 +134,6 @@ def validate_ip_addresses(ip_addresses):
     for ip in ip_addresses:
         ip_address = ip["value"]
 
-        # Validate IP address using validators library
         if validate_ip_address(ip_address):
             ip["validation"] = "valid"
         else:
@@ -153,6 +153,16 @@ def validate_btc_wallets(btc_wallets):
         validated_btc_wallets.append(wallet)
     return validated_btc_wallets
 
+def validate_iban(iban_numbers):
+    validated_ibans = []
+    for iban in iban_numbers:
+        if validate_iban(iban["value"]): 
+            iban["validation"] = "valid"
+        else:
+            iban["validation"] = "invalid"
+        validated_ibans.append(iban)
+    return validated_ibans
+
 def validate_fields(sensitive_info):
     fields = ["urls", "domains", "credit_card_numbers", "emails"]
     validation_functions = {
@@ -165,6 +175,7 @@ def validate_fields(sensitive_info):
         "plate_numbers": validate_plate,
         "ip_addresses": validate_ip_addresses,
         "btc_wallets": validate_btc_wallets,
+        "ibans": validate_iban,
     }
 
     validation_results = {}

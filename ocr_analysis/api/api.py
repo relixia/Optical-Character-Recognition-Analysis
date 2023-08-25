@@ -7,8 +7,8 @@ from fastapi.templating import Jinja2Templates
 # ekstra: pytesseracct dışında diğer libleri de kullan ne kadar çok bilgi o kadar iyi
 
 # COMPLETED:
-# date pattern from dateparser lib
-# btc wallet ve validation
+# iban and its validation added
+
 
 app = FastAPI()
 

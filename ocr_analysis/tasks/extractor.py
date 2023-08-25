@@ -145,6 +145,16 @@ class SensitiveInfoExtractor:
 
         return btc_wallets
 
+    def extract_iban(self):
+        ibans = []
+
+        iban_pattern = r"\b[A-Z]{2}\d{2}[A-Z\d]{4}\d{7}(?:[A-Z\d]?|\s{1,4})\b"
+        iban_matches = re.findall(iban_pattern, self.text)
+        ibans.extend(iban_matches)
+
+        return ibans
+
+
     def extract_sensitive_info(self):
         sensitive_info = {
             "phone_numbers": self.format_findings(
@@ -170,6 +180,7 @@ class SensitiveInfoExtractor:
             "btc_wallets": self.format_findings(
                 self.extract_btc_wallet(), "BTC_WALLET"
             ),
+            "iban": self.format_findings(self.extract_iban(), "IBAN"),
         }
 
         return sensitive_info
