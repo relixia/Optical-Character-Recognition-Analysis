@@ -49,7 +49,7 @@ class SensitiveInfoExtractor:
     def extract_plate_numbers(self):
         plate_numbers = []
 
-        plate_pattern = r"\b\d{2}\s?[A-Z]{1,3}\s?\d{2,4}\b" # only tr plate
+        plate_pattern = r"\b\d{2}\s?[A-Z]{1,3}\s?\d{2,4}\b"
         plate_matches = re.findall(plate_pattern, self.text)
         plate_numbers.extend(plate_matches)
 
@@ -58,7 +58,7 @@ class SensitiveInfoExtractor:
     def extract_dates(self):
         dates = []
 
-        date_pattern = r"\b\d{2}/\d{2}/\d{4}\b"   # sadece slash yerine tire, date parser
+        date_pattern = r"\b\d{2}/\d{2}/\d{4}\b"   # date parser
         date_matches = re.findall(date_pattern, self.text)
         dates.extend(date_matches)
 
@@ -128,9 +128,8 @@ class SensitiveInfoExtractor:
         return ip_addresses
 
     def format_findings(self, info_list, info_type):
-        formatted_info = []
-        for value in info_list:
-            formatted_info.append({"value": value, "type": info_type})
+        unique_info = list(set(info_list))
+        formatted_info = [{"value": value, "type": info_type} for value in unique_info]
         return formatted_info
 
     def extract_sensitive_info(self):
