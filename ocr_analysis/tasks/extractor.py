@@ -40,7 +40,7 @@ class SensitiveInfoExtractor:
     def extract_credit_card_numbers(self):
         credit_card_numbers = []
 
-        cc_pattern = r"\b\d{4}-?\d{4}-?\d{4}-?\d{4}\b"
+        cc_pattern = r"\b\d{4}(?:-|\s)?\d{4}(?:-|\s)?\d{4}(?:-|\s)?\d{4}\b"
         cc_matches = re.findall(cc_pattern, self.text)
         credit_card_numbers.extend(cc_matches)
 
@@ -49,7 +49,7 @@ class SensitiveInfoExtractor:
     def extract_plate_numbers(self):
         plate_numbers = []
 
-        plate_pattern = r"\b[A-Z0-9]{2}-[A-Z0-9]{2}-[A-Z0-9]{2,3}\b"
+        plate_pattern = r"\b\d{2}\s?[A-Z]{1,3}\s?\d{2,4}\b" # only tr plate
         plate_matches = re.findall(plate_pattern, self.text)
         plate_numbers.extend(plate_matches)
 
@@ -58,7 +58,7 @@ class SensitiveInfoExtractor:
     def extract_dates(self):
         dates = []
 
-        date_pattern = r"\b\d{2}/\d{2}/\d{4}\b"
+        date_pattern = r"\b\d{2}/\d{2}/\d{4}\b"   # sadece slash yerine tire, date parser
         date_matches = re.findall(date_pattern, self.text)
         dates.extend(date_matches)
 
@@ -67,7 +67,7 @@ class SensitiveInfoExtractor:
     def extract_emails(self):
         emails = []
 
-        email_pattern = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b"
+        email_pattern = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b" 
         email_matches = re.findall(email_pattern, self.text, re.IGNORECASE)
         emails.extend(email_matches)
 
@@ -94,7 +94,7 @@ class SensitiveInfoExtractor:
     def extract_hashes(self):
         hashes = []
 
-        hash_pattern = r"\b[A-Fa-f0-9]{32}\b"
+        hash_pattern = r"\b(?:[A-Fa-f0-9]{32}|[A-Fa-f0-9]{40}|[A-Fa-f0-9]{64})\b"
         hash_matches = re.findall(hash_pattern, self.text)
         hashes.extend(hash_matches)
 
@@ -103,7 +103,7 @@ class SensitiveInfoExtractor:
     def detect_combolists(self):
         combolists = []
 
-        combolist_pattern = r"\b[A-Za-z0-9._%+-]+:[A-Za-z0-9._%+-]+\b"
+        combolist_pattern = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}:[A-Za-z0-9._%+-]+\b"
         combolist_matches = re.findall(combolist_pattern, self.text)
         combolists.extend(combolist_matches)
 

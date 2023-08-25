@@ -1,7 +1,9 @@
 import io
 import json
+import imghdr
 
 import pytesseract
+from fastapi import HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse
 from PIL import Image
 
@@ -13,9 +15,14 @@ from validation.validator import validate_fields
 def process_image(upload):
     image_data = upload.file.read()
 
+    image_format = imghdr.what(None, h=image_data)
+    if not image_format:
+        return JSONResponse(content={"error": "bad request. wrong file format"}, status_code=400)
+
     cached_result = get_cached_result(image_data)
     if cached_result:
-        return JSONResponse(content=cached_result)
+        cached_result_dict = json.loads(cached_result)
+        return JSONResponse(content=cached_result_dict)
 
     image = Image.open(io.BytesIO(image_data))
     extracted_text = pytesseract.image_to_string(image)
