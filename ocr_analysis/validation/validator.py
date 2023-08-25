@@ -2,6 +2,7 @@ import whois
 from validators import domain as validate_domain
 from validators import url as validate_url
 from validators import hashes as validate_hash
+from validators import btc_address as validate_btc_wallet
 
 from utilities.helper_validator import (detect_card_type, hunterio,
                                         luhn_algorithm_validation, verifalia)
@@ -142,6 +143,16 @@ def validate_ip_addresses(ip_addresses):
 
     return validated_ip_addresses
 
+def validate_btc_wallets(btc_wallets):
+    validated_btc_wallets = []
+    for wallet in btc_wallets:
+        if validate_btc_wallet(wallet["value"]):
+            wallet["validation"] = "valid"
+        else:
+            wallet["validation"] = "invalid"
+        validated_btc_wallets.append(wallet)
+    return validated_btc_wallets
+
 def validate_fields(sensitive_info):
     fields = ["urls", "domains", "credit_card_numbers", "emails"]
     validation_functions = {
@@ -153,6 +164,7 @@ def validate_fields(sensitive_info):
         "id_numbers": validate_id,
         "plate_numbers": validate_plate,
         "ip_addresses": validate_ip_addresses,
+        "btc_wallets": validate_btc_wallets,
     }
 
     validation_results = {}

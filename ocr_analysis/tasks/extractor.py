@@ -1,4 +1,5 @@
 import re
+import dateparser
 
 
 class SensitiveInfoExtractor:
@@ -60,7 +61,10 @@ class SensitiveInfoExtractor:
 
         date_pattern = r"\b\d{2}/\d{2}/\d{4}\b"   # date parser
         date_matches = re.findall(date_pattern, self.text)
-        dates.extend(date_matches)
+        for date_string in date_matches:
+            parsed_date = dateparser.parse(date_string)
+            if parsed_date:
+                dates.append(parsed_date.strftime('%Y-%m-%d %H:%M:%S'))
 
         return dates
 
@@ -132,6 +136,15 @@ class SensitiveInfoExtractor:
         formatted_info = [{"value": value, "type": info_type} for value in unique_info]
         return formatted_info
 
+    def extract_btc_wallet(self):
+        btc_wallets = []
+
+        btc_pattern = r"\b(?:bc1|[13])[a-km-zA-HJ-NP-Z0-9]{25,39}\b"
+        btc_matches = re.findall(btc_pattern, self.text)
+        btc_wallets.extend(btc_matches)
+
+        return btc_wallets
+
     def extract_sensitive_info(self):
         sensitive_info = {
             "phone_numbers": self.format_findings(
@@ -153,6 +166,9 @@ class SensitiveInfoExtractor:
             "gender": self.format_findings(self.extract_gender_info(), "GENDER"),
             "ip_addresses": self.format_findings(
                 self.extract_ip_addresses(), "IP_ADDRESS"
+            ),
+            "btc_wallets": self.format_findings(
+                self.extract_btc_wallet(), "BTC_WALLET"
             ),
         }
 
