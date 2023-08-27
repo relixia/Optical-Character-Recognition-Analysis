@@ -4,6 +4,9 @@ from validators import url as validate_url
 from validators import hashes as validate_hash
 from validators import btc_address as validate_btc_wallet
 from validators import iban as validate_iban
+from validators import ip_address as validate_ip_address
+from validators import email as validate_email
+from validators import card as validate_card
 
 from utilities.helper_validator import (detect_card_type, hunterio,
                                         luhn_algorithm_validation, verifalia)
@@ -44,6 +47,12 @@ def validate_credit_cards(credit_cards):
     for card in credit_cards:
         card_number = card["value"].replace("-", "")
 
+        # Validators Library Validation
+        if validate_card.card_number(card["value"]):
+            card["validation"] = "valid"
+        else:
+            card["validation"] = "invalid"
+
         # Luhn Algorithm Validation
         if luhn_algorithm_validation(card_number):
             card["luhn_validation"] = "valid"
@@ -80,6 +89,12 @@ def validate_emails(emails):
     for email in emails:
         user_email = email["value"]
 
+        # Validators Library Validation
+        if validate_email(email["value"]):
+            email["validation"] = "valid"
+        else:
+            email["validation"] = "invalid"
+
         # Hunter.io Validation
         hunter_result = hunterio(user_email)
         email["hunterio_verification"] = hunter_result
@@ -95,7 +110,8 @@ def validate_emails(emails):
 def validate_hashes(hashes):
     validated_hashes = []
     for hash_value in hashes:
-        if validate_hash(hash_value["value"]):
+        value = hash_value["value"]
+        if validate_hash.md5(value) or validate_hash.sha1(value) or validate_hash.sha256(value):
             hash_value["validation"] = "valid"
         else:
             hash_value["validation"] = "invalid"
@@ -134,7 +150,7 @@ def validate_ip_addresses(ip_addresses):
     for ip in ip_addresses:
         ip_address = ip["value"]
 
-        if validate_ip_address(ip_address):
+        if validate_ip_address.ipv4(ip_address):
             ip["validation"] = "valid"
         else:
             ip["validation"] = "invalid"
@@ -153,7 +169,7 @@ def validate_btc_wallets(btc_wallets):
         validated_btc_wallets.append(wallet)
     return validated_btc_wallets
 
-def validate_iban(iban_numbers):
+def validate_ibans(iban_numbers):
     validated_ibans = []
     for iban in iban_numbers:
         if validate_iban(iban["value"]): 
@@ -164,10 +180,10 @@ def validate_iban(iban_numbers):
     return validated_ibans
 
 def validate_fields(sensitive_info):
-    fields = ["urls", "domains", "credit_card_numbers", "emails"]
+    fields = ["urls", "domains", "credit_card_numbers", "emails", "hashes", "id_numbers", "plate_numbers", "ip_addresses", "btc_wallets", "ibans"]
     validation_functions = {
-        "urls": validate_url,
-        "domains": validate_domain,
+        "urls": validate_urls,
+        "domains": validate_domains,
         "credit_card_numbers": validate_credit_cards,
         "emails": validate_emails,
         "hashes": validate_hashes,
@@ -175,7 +191,7 @@ def validate_fields(sensitive_info):
         "plate_numbers": validate_plate,
         "ip_addresses": validate_ip_addresses,
         "btc_wallets": validate_btc_wallets,
-        "ibans": validate_iban,
+        "ibans": validate_ibans,
     }
 
     validation_results = {}
