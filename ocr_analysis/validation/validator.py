@@ -1,12 +1,12 @@
 import whois
-from validators import domain as validate_domain
-from validators import url as validate_url
-from validators import hashes as validate_hash
 from validators import btc_address as validate_btc_wallet
+from validators import card as validate_card
+from validators import domain as validate_domain
+from validators import email as validate_email
+from validators import hashes as validate_hash
 from validators import iban as validate_iban
 from validators import ip_address as validate_ip_address
-from validators import email as validate_email
-from validators import card as validate_card
+from validators import url as validate_url
 
 from utilities.helper_validator import (detect_card_type, hunterio,
                                         luhn_algorithm_validation, verifalia)
@@ -67,6 +67,7 @@ def validate_credit_cards(credit_cards):
 
     return validated_card_numbers
 
+
 def validate_plate(plate_numbers):
     validated_plate_numbers = []
     for plate in plate_numbers:
@@ -107,27 +108,33 @@ def validate_emails(emails):
 
     return validated_emails
 
+
 def validate_hashes(hashes):
     validated_hashes = []
     for hash_value in hashes:
         value = hash_value["value"]
-        if validate_hash.md5(value) or validate_hash.sha1(value) or validate_hash.sha256(value):
+        if (
+            validate_hash.md5(value)
+            or validate_hash.sha1(value)
+            or validate_hash.sha256(value)
+        ):
             hash_value["validation"] = "valid"
         else:
             hash_value["validation"] = "invalid"
         validated_hashes.append(hash_value)
     return validated_hashes
 
+
 def validate_id(id_numbers):
     validated_id_numbers = []
     for id_number in id_numbers:
         tc_number = id_number["value"]
-        
+
         if len(tc_number) != 11 or not tc_number.isdigit():
             id_number["validation"] = "invalid"
         else:
             digits = [int(digit) for digit in tc_number]
-            
+
             if digits[0] == 0:
                 id_number["validation"] = "invalid"
             else:
@@ -135,15 +142,16 @@ def validate_id(id_numbers):
                 even_sum = sum(digits[1:8:2])
                 check_digit_10 = (odd_sum * 7 - even_sum) % 10
                 check_digit_11 = (sum(digits) - digits[10]) % 10
-                
+
                 if check_digit_10 == digits[9] and check_digit_11 == digits[10]:
                     id_number["validation"] = "valid"
                 else:
                     id_number["validation"] = "invalid"
-        
+
         validated_id_numbers.append(id_number)
-    
+
     return validated_id_numbers
+
 
 def validate_ip_addresses(ip_addresses):
     validated_ip_addresses = []
@@ -159,6 +167,7 @@ def validate_ip_addresses(ip_addresses):
 
     return validated_ip_addresses
 
+
 def validate_btc_wallets(btc_wallets):
     validated_btc_wallets = []
     for wallet in btc_wallets:
@@ -169,18 +178,31 @@ def validate_btc_wallets(btc_wallets):
         validated_btc_wallets.append(wallet)
     return validated_btc_wallets
 
+
 def validate_ibans(iban_numbers):
     validated_ibans = []
     for iban in iban_numbers:
-        if validate_iban(iban["value"]): 
+        if validate_iban(iban["value"]):
             iban["validation"] = "valid"
         else:
             iban["validation"] = "invalid"
         validated_ibans.append(iban)
     return validated_ibans
 
+
 def validate_fields(sensitive_info):
-    fields = ["urls", "domains", "credit_card_numbers", "emails", "hashes", "id_numbers", "plate_numbers", "ip_addresses", "btc_wallets", "ibans"]
+    fields = [
+        "urls",
+        "domains",
+        "credit_card_numbers",
+        "emails",
+        "hashes",
+        "id_numbers",
+        "plate_numbers",
+        "ip_addresses",
+        "btc_wallets",
+        "ibans",
+    ]
     validation_functions = {
         "urls": validate_urls,
         "domains": validate_domains,

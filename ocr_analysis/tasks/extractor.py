@@ -59,19 +59,19 @@ class SensitiveInfoExtractor:
     def extract_dates(self):
         dates = []
 
-        date_pattern = r"\b\d{2}/\d{2}/\d{4}\b"   # date parser
+        date_pattern = r"\b\d{2}/\d{2}/\d{4}\b"  # date parser
         date_matches = re.findall(date_pattern, self.text)
         for date_string in date_matches:
             parsed_date = dateparser.parse(date_string)
             if parsed_date:
-                dates.append(parsed_date.strftime('%Y-%m-%d %H:%M:%S'))
+                dates.append(parsed_date.strftime("%Y-%m-%d %H:%M:%S"))
 
         return dates
 
     def extract_emails(self):
         emails = []
 
-        email_pattern = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b" 
+        email_pattern = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b"
         email_matches = re.findall(email_pattern, self.text, re.IGNORECASE)
         emails.extend(email_matches)
 
@@ -107,7 +107,7 @@ class SensitiveInfoExtractor:
     def detect_combolists(self):
         combolists = []
 
-        combolist_pattern = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}:[A-Za-z0-9._%+-]+\b"
+        combolist_pattern = (r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}:[A-Za-z0-9._%+-]+\b")
         combolist_matches = re.findall(combolist_pattern, self.text)
         combolists.extend(combolist_matches)
 
@@ -153,7 +153,6 @@ class SensitiveInfoExtractor:
         ibans.extend(iban_matches)
 
         return ibans
-
 
     def extract_sensitive_info(self):
         sensitive_info = {

@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{include = "ocr_analysis"}]
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = ">=3.8, <3.11.9"
 redis = "^5.0.0"
 fastapi = "^0.101.1"
 uvicorn = "^0.23.2"
@@ -23,6 +23,7 @@ validators = "^0.21.2"
 python-whois = "^0.8.0"
 requests = "^2.31.0"
 dateparser = "^1.1.8"
+textract = "^1.6.5"
 
 
 [build-system]
