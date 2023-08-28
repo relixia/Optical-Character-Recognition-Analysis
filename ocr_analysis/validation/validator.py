@@ -128,9 +128,9 @@ def validate_hashes(hashes):
 def validate_id(id_numbers):
     validated_id_numbers = []
     for id_number in id_numbers:
-        tc_number = id_number["value"]
+        tc_number = id_number["value"][1]
 
-        if len(tc_number) != 11 or not tc_number.isdigit():
+        if len(tc_number) != 11:
             id_number["validation"] = "invalid"
         else:
             digits = [int(digit) for digit in tc_number]

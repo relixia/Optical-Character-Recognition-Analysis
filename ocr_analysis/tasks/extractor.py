@@ -80,7 +80,7 @@ class SensitiveInfoExtractor:
     def extract_domains(self):
         domains = []
 
-        domain_pattern = r"\b[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b"
+        domain_pattern = r"\b[A-Za-z0-9.-]+\.[A-Z|a-z]{1,7}\b"
         domain_matches = re.findall(domain_pattern, self.text)
         domains.extend(domain_matches)
 
@@ -89,7 +89,7 @@ class SensitiveInfoExtractor:
     def extract_urls(self):
         urls = []
 
-        url_pattern = r"\bhttps?://[^\s]+\b"
+        url_pattern = r"\bhttps?://[^\s/]+\b"
         url_matches = re.findall(url_pattern, self.text)
         urls.extend(url_matches)
 

@@ -33,7 +33,7 @@ class ImageProcessor:
         image_format = imghdr.what(None, h=image_data)
         if not image_format:
             return JSONResponse(
-                content={"error": "bad request. wrong file format"}, status_code=400
+                content={"status": "bad request. wrong file format"}, status_code=400
             )
 
         cached_result = get_cached_result(image_data)
