@@ -24,6 +24,8 @@ python-whois = "^0.8.0"
 requests = "^2.31.0"
 dateparser = "^1.1.8"
 textract = "^1.6.5"
+imutils = "^0.5.4"
+opencv-python = "^4.8.0.76"
 
 
 [build-system]

@@ -1,12 +1,13 @@
 # Base image
 FROM python:3.11
 
+# Install required system packages
+RUN apt-get update && \
+    apt-get install -y libgl1-mesa-glx tesseract-ocr
+
 # Install Poetry
 RUN curl -sSL https://install.python-poetry.org | python -
 ENV PATH="${PATH}:/root/.local/bin"
-
-# Install Tesseract and its dependencies
-RUN apt-get update && apt-get install -y tesseract-ocr
 
 # Set the working directory in the container
 WORKDIR /app
