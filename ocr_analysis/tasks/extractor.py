@@ -50,7 +50,7 @@ class SensitiveInfoExtractor:
     def extract_plate_numbers(self):
         plate_numbers = []
 
-        plate_pattern = r"\b\d{2}\s?[A-Z]{1,3}\s?\d{2,4}\b"
+        plate_pattern = r"\b\d{2}[-\s]?[A-Z]{1,3}[-\s]?\d{2,4}\b"
         plate_matches = re.findall(plate_pattern, self.text)
         plate_numbers.extend(plate_matches)
 

@@ -189,9 +189,20 @@ def validate_ibans(iban_numbers):
         validated_ibans.append(iban)
     return validated_ibans
 
+def validate_others(sensitive_info_type):
+    # This function is for other sensitive information types that cannot be verified
+    validated = []
+    for elem in sensitive_info_type:
+        elem["validation"] = "valid"
+        validated.append(elem)
+    return validated
 
 def validate_fields(sensitive_info):
     fields = [
+        "phone_numbers",
+        "dates",
+        "combolists",
+        "gender",
         "urls",
         "domains",
         "credit_card_numbers",
@@ -214,6 +225,10 @@ def validate_fields(sensitive_info):
         "ip_addresses": validate_ip_addresses,
         "btc_wallets": validate_btc_wallets,
         "ibans": validate_ibans,
+        "phone_numbers": validate_others,
+        "dates": validate_others,
+        "combolists": validate_others,
+        "gender": validate_others,
     }
 
     validation_results = {}
