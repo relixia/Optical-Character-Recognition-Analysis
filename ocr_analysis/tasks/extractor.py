@@ -31,10 +31,10 @@ class SensitiveInfoExtractor:
         tc_matches = re.findall(tc_pattern, self.text)
 
         for ssn in ssn_matches:
-            id_numbers.append(("American SSN", ssn))
+            id_numbers.append(ssn)
 
         for tc in tc_matches:
-            id_numbers.append(("Turkish ID", tc))
+            id_numbers.append(tc)
 
         return id_numbers
 
